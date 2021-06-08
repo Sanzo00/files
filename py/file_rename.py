@@ -2,7 +2,7 @@
 import os, sys
 
 path = "dir/"
-dir = os.listdir("./")
+dir = os.listdir(path)
 
 for file in dir:
     if ".mp4" not in file:
