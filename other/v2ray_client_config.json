@@ -35,11 +35,11 @@
       "settings": {
         "vnext": [
           {
-            "address": "xxx.com",
-            "port": xxx,
+            "address": "sanzo.top",
+            "port": 18113,
             "users": [
               {
-                "id": "ef98d1d8-5532-430f-955e-1bb64bb62f47",
+                "id": "8e1dc4d7-9dc8-42c0-ac05-72ddff70144d",
                 "alterId": 64,
                 "email": "t@t.tt",
                 "security": "auto"
