@@ -15,7 +15,7 @@
 using namespace std;
 
 typedef int nodeTy;
-typedef int edgeTy;
+typedef long long edgeTy;
 const int inf = INT_MAX;
 
 void readGraph(string filename, vector<int> &nodeDeg, vector<nodeTy> &edgeDst,
@@ -80,7 +80,8 @@ void readGraph(string filename, vector<int> &nodeDeg, vector<nodeTy> &edgeDst,
       int idx = u ? nodeDeg[u - 1] : 0;
       idx += start[u]++;
       edgeDst[idx] = v;
-      edgeData[idx] = 1;
+      iss >> edgeData[idx];
+      // edgeData[idx] = 1;
 
       // Undirected
       // idx = v ? nodeDeg[v - 1] : 0;
@@ -115,24 +116,30 @@ void sssp(nodeTy src, nodeTy maxNode, vector<edgeTy> &dis, vector<bool> &vis,
       continue;
     }
     vis[u] = true;
-
     int idx = u ? nodeDeg[u - 1] : 0;
     while (idx < nodeDeg[u]) {
       nodeTy v = edgeDst[idx];
       if (!vis[v] && c + edgeData[idx] < dis[v]) {
         dis[v] = c + edgeData[idx];
-        que.push({dis[v], v});
+        que.push({v, dis[v]});
       }
       idx++;
     }
   }
 }
 
-int main() {
-  string filename = "../input/roadNet-CA.txt";
-  unordered_map<nodeTy, nodeTy> nodes;
+int main(int argc, char** argv) {
+  if (argc < 3) {
+    cout << "Usage: " << argv[0] << " input src" << endl;
+    exit(-1);
+  }
 
-  nodeTy src = 10;
+  string filename(argv[1]);
+  nodeTy src = atoi(argv[2]);
+  cout << "filename: " << filename << endl;
+  cout << "src: " << src << endl;
+
+  unordered_map<nodeTy, nodeTy> nodes;
   nodeTy maxNode = 0;
   int numEdges = 0;
   vector<int> nodeDeg;
@@ -152,7 +159,7 @@ int main() {
   sssp(src, maxNode, dis, vis, nodeDeg, edgeDst, edgeData);
 
   // print dis[100 - 120]
-  cout << endl << "src = " << src << " dis[100 - 120]" << endl;
+  cout << endl << "dis[100 - 120]" << endl;
   for (int i = 100; i < 120; ++i) {
     cout << dis[i] << " ";
   } cout << endl;
