@@ -91,6 +91,7 @@ void readGraph(string filename, vector<int> &nodeDeg, vector<nodeTy> &edgeDst,
     }
   }
   assert(start[maxNode] + nodeDeg[maxNode - 1] == nodeDeg[maxNode]);
+  in.close();
 }
 
 void sssp(nodeTy src, nodeTy maxNode, vector<edgeTy> &dis, vector<bool> &vis,
