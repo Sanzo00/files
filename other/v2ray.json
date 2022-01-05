@@ -1,22 +1,23 @@
-  "inbounds": [ 
+{
+  "inbounds": [
     {
       "tag": "proxy",
       "port": 10800,
       "listen": "127.0.0.1",
       "protocol": "socks",
       "sniffing": {
-	"enabled": true,
-	"destOverride": [
-	  "http",
-	  "tls"
-	]
+        "enabled": true,
+        "destOverride": [
+          "http",
+          "tls"
+        ]
       },
       "settings": {
-	"auth": "noauth",
-	"udp": true,
-	"ip": null,
-	"address": null,
-	"clients": null
+        "auth": "noauth",
+        "udp": true,
+        "ip": null,
+        "address": null,
+        "clients": null
       },
       "streamSettings": null
     },
@@ -26,134 +27,127 @@
       "listen": "127.0.0.1",
       "protocol": "http",
       "sniffing": {
-	"enabled": true,
-	"destOverride": [
-	  "http",
-	  "tls"
-	]
+        "enabled": true,
+        "destOverride": [
+          "http",
+          "tls"
+        ]
       },
       "settings": {
-	"auth": "noauth",
-	"udp": true,
-	"ip": null,
-	"address": null,
-	"clients": null
+        "auth": "noauth",
+        "udp": true,
+        "ip": null,
+        "address": null,
+        "clients": null
       },
       "streamSettings": null
     }
   ],
-    "outbounds": [
-        {
-            "_QV2RAY_USE_GLOBAL_FORWARD_PROXY_": false,
-            "mux": {
-                "concurrency": 1,
-                "enabled": null
+  "outbounds": [
+    {
+      "_QV2RAY_USE_GLOBAL_FORWARD_PROXY_": false,
+      "mux": {
+        "concurrency": 1,
+        "enabled": null
+      },
+      "protocol": "vmess",
+      "sendThrough": "0.0.0.0",
+      "settings": {
+        "vnext": [
+          {
+            "address": // "ip",
+            "port": // port,
+            "users": [
+              {
+                "alterId": 64,
+                "id": // "id",
+                "level": 0,
+                "security": "auto"
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "dsSettings": {
+          "path": "/"
+        },
+        "httpSettings": {
+          "host": [],
+          "path": "/"
+        },
+        "kcpSettings": {
+          "congestion": false,
+          "downlinkCapacity": 20,
+          "header": {
+            "type": "none"
+          },
+          "mtu": 1350,
+          "readBufferSize": 1,
+          "seed": "",
+          "tti": 20,
+          "uplinkCapacity": 5,
+          "writeBufferSize": 1
+        },
+        "network": "tcp",
+        "quicSettings": {
+          "header": {
+            "type": "none"
+          },
+          "key": "",
+          "security": ""
+        },
+        "security": "tls",
+        "sockopt": {
+          "mark": 255,
+          "tcpFastOpen": false,
+          "tproxy": "off"
+        },
+        "tcpSettings": {
+          "header": {
+            "request": {
+              "headers": {},
+              "method": "GET",
+              "path": [],
+              "version": "1.1"
             },
-            "protocol": "vmess",
-            "sendThrough": "0.0.0.0",
-            "settings": {
-                "vnext": [
-                    {
-                "address": "---------you server ip---------",
-                        "port": ----your server port------,
-                        "users": [
-                            {
-                                "alterId": 64,
-                                "id": "-------you id------",
-                                "level": 0,
-                                "security": "auto"
-                            }
-                        ]
-                    }
-                ]
+            "response": {
+              "headers": {},
+              "reason": "OK",
+              "status": "200",
+              "version": "1.1"
             },
-            "streamSettings": {
-                "dsSettings": {
-                    "path": "/"
-                },
-                "httpSettings": {
-                    "host": [
-                    ],
-                    "path": "/"
-                },
-                "kcpSettings": {
-                    "congestion": false,
-                    "downlinkCapacity": 20,
-                    "header": {
-                        "type": "none"
-                    },
-                    "mtu": 1350,
-                    "readBufferSize": 1,
-                    "seed": "",
-                    "tti": 20,
-                    "uplinkCapacity": 5,
-                    "writeBufferSize": 1
-                },
-                "network": "tcp",
-                "quicSettings": {
-                    "header": {
-                        "type": "none"
-                    },
-                    "key": "",
-                    "security": ""
-                },
-                "security": "tls",
-                "sockopt": {
-                    "mark": 255,
-                    "tcpFastOpen": false,
-                    "tproxy": "off"
-                },
-                "tcpSettings": {
-                    "header": {
-                        "request": {
-                            "headers": {
-                            },
-                            "method": "GET",
-                            "path": [
-                            ],
-                            "version": "1.1"
-                        },
-                        "response": {
-                            "headers": {
-                            },
-                            "reason": "OK",
-                            "status": "200",
-                            "version": "1.1"
-                        },
-                        "type": "none"
-                    }
-                },
-                "tlsSettings": {
-                    "allowInsecure": false,
-                    "allowInsecureCiphers": false,
-                    "alpn": [
-                        "http/1.1"
-                    ],
-                    "certificates": [
-                    ],
-                    "disableSessionResumption": true,
-                    "disableSystemRoot": false,
-                    "serverName": ""
-                },
-                "wsSettings": {
-                    "headers": {
-                    },
-                    "path": "/"
-                },
-                "xtlsSettings": {
-                    "allowInsecure": false,
-                    "allowInsecureCiphers": false,
-                    "alpn": [
-                        "http/1.1"
-                    ],
-                    "certificates": [
-                    ],
-                    "disableSessionResumption": true,
-                    "disableSystemRoot": false,
-                    "serverName": ""
-                }
-            },
-            "tag": "PROXY"
+            "type": "none"
+          }
+        },
+        "tlsSettings": {
+          "allowInsecure": false,
+          "allowInsecureCiphers": false,
+          "alpn": [
+            "http/1.1"
+          ],
+          "certificates": [],
+          "disableSessionResumption": true,
+          "disableSystemRoot": false,
+          "serverName": ""
+        },
+        "wsSettings": {
+          "headers": {},
+          "path": "/"
+        },
+        "xtlsSettings": {
+          "allowInsecure": false,
+          "allowInsecureCiphers": false,
+          "alpn": [
+            "http/1.1"
+          ],
+          "certificates": [],
+          "disableSessionResumption": true,
+          "disableSystemRoot": false,
+          "serverName": ""
         }
-    ]
+      },
+      "tag": "PROXY"
+    }
+  ]
 }
