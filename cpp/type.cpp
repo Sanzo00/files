@@ -1,4 +1,5 @@
 #include <iostream>
+#include <memory>
 #include <typeinfo>
 #include <type_traits>
 #ifndef _MSC_VER
