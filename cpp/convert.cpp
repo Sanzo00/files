@@ -85,7 +85,7 @@ int main(int argc, char **argv) {
       // for (auto it : container) {
       //   std::cout << it << " ";
       // } std::cout << endl;
-      std::cout << edge.src << " " << edge.dst << " " << edge.edge_data << std::endl;
+      // std::cout << edge.src << " " << edge.dst << " " << edge.edge_data << std::endl;
 
       nums.push_back(edge.src);
       nums.push_back(edge.dst);
