@@ -1,5 +1,8 @@
 #include <fstream>
 #include <iostream>
+#include <unordered_set>
+#include <vector> 
+const int N = 1000000;
 
 int main(int argc, char **argv) {
 
@@ -21,13 +24,31 @@ int main(int argc, char **argv) {
   }
 
   int u, v;
-  int edges = 0;
+  int count = 0;
+  std::unordered_set<int> nodes;
+  std::vector<std::pair<int,int>> edges;
   while (inFile.read(reinterpret_cast<char*>(&u), sizeof(int))) {
     inFile.read(reinterpret_cast<char*>(&v), sizeof(int));
-    edges++;
-    outFile << u << " " << v << "\n";
+    edges.push_back({u, v});
+    nodes.insert(u);
+    nodes.insert(v);
+
+    if (++count % (N * 10) == 0) {
+      printf("flush %dM edges\n", count / N);
+      for (auto& p : edges) {
+        outFile << p.first << " " << p.second << "\n";
+      }
+      edges.clear();
+    }
   }
-  std::cout << "edges: " << edges << std::endl;
+
+  if (!edges.empty()) {
+    for (auto& p : edges) {
+      outFile << p.first << " " << p.second << "\n";
+    }
+    edges.clear();
+  }
+  std::cout << "nodes: " << nodes.size() << "edges: " << count << std::endl;
 
   inFile.close();
   outFile.close();
