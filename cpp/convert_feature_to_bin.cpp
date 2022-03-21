@@ -4,7 +4,7 @@
 #include <sstream>
 
 typedef float FeatType;
-const int N = 1000000000;
+const int N = 1000000;
 int main(int argc, char** argv) {
 
   if (argc < 3) {
@@ -42,7 +42,7 @@ int main(int argc, char** argv) {
       buffer[now++] = feat;
       if (now == N) {
         for (int i = 0; i < now; ++i) {
-          out << buffer[i];
+          out.write((char*)&buffer[i], sizeof(buffer[i]));
         }
         now = 0;
       }
