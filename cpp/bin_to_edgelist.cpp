@@ -48,7 +48,7 @@ int main(int argc, char **argv) {
     }
     edges.clear();
   }
-  std::cout << "nodes: " << nodes.size() << "edges: " << count << std::endl;
+  std::cout << "nodes: " << nodes.size() << " edges: " << count << std::endl;
 
   inFile.close();
   outFile.close();
