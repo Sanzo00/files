@@ -3,6 +3,7 @@
 #include <vector>
 #include <stdint.h>
 #include <algorithm>
+#include <unordered_set>
 using namespace std;
 
 typedef uint32_t VertexId; // vertex dta type
@@ -46,6 +47,13 @@ int getNum(int x, vector<VertexId> &nums) {
   // return lower_bound(nums.begin(), nums.end(), x) - nums.begin() + 1;
 }
 
+struct pair_hash {
+  inline std::size_t operator()(const std::pair<VertexId, VertexId> & v) const {
+      return v.first * 31 + v.second;
+  }
+};
+
+
 int main(int argc, char **argv) {
   if (argc < 3) {
     cout << "Usage: ./convert input output\n"; 
@@ -62,26 +70,43 @@ int main(int argc, char **argv) {
 
     string line;
     vector<string> container;
-    // EdgeUnit<Empty> edge;
-    // vector<EdgeUnit<Empty>> edges;
-    EdgeUnit<EdgeId> edge;
-    vector<EdgeUnit<EdgeId>> edges; 
+    EdgeUnit<Empty> edge;
+    vector<EdgeUnit<Empty>> edges;
+    
+    // EdgeUnit<EdgeId> edge;
+    // vector<EdgeUnit<EdgeId>> edges; 
     vector<VertexId> nums;
+    std::unordered_set<std::pair<VertexId, VertexId>, pair_hash> hashmap_edges;
     uint64_t count = 0;
     if (!in.is_open()) {
       cout << fin << " open error!" << endl;
       exit(-1);
     }
 
+    int line_cnt = 0;
     while (getline(in, line)) {
-      if (line[0] == '#') continue;
-      // std::cout << line << std::endl;
-      split(line, " ", container);
+
+      if (line[0] == '#' || line[0] == '%') continue;
       // if (line[0] == '#' || line[0] != 'a') continue;
-      // split(line, " ", container);
+      if (++line_cnt % 10000000 == 0) {
+        cout << "read " << line_cnt / 1000000 << "M edages." << endl;
+      }
+
+      split(line, " ", container);
+      // split(line, "\t", container);
+
+
+      // for (auto x : container) {
+      //   std::cout << x << ' ';
+      // } std::cout << std::endl;
+
       edge.src = (VertexId) std::stoi(container[0]);
       edge.dst = (VertexId) std::stoi(container[1]);
-      edge.edge_data = (EdgeId) std::stof(container[2]);
+
+      // edge.src = (VertexId) std::stoi(container[1]);
+      // edge.dst = (VertexId) std::stoi(container[2]);
+      // printf("line %d %d %d\n", line_cnt, edge.src, edge.dst);
+      // edge.edge_data = (EdgeId) std::stof(container[2]);
       // for (auto it : container) {
       //   std::cout << it << " ";
       // } std::cout << endl;
@@ -91,11 +116,42 @@ int main(int argc, char **argv) {
       nums.push_back(edge.dst);
       // cout << edge.src << " -> " << edge.dst << endl;
       // cout << edge.src << " " << edge.dst << " " << edge.edge_data << endl;
-      edges.push_back(edge);
+      VertexId u = edge.src;
+      VertexId v = edge.dst;
+      // edges.push_back({u, v});
+      // edges.push_back({v, u});
+
+      if (hashmap_edges.find({u, v}) == hashmap_edges.end()) {
+        edges.push_back({u, v});
+        hashmap_edges.insert({u, v});
+      }
+
+      // self loop
+      if (hashmap_edges.find({u, u}) == hashmap_edges.end()) {
+        edges.push_back({u, u});
+        hashmap_edges.insert({u, u});
+      }
+
+      if (hashmap_edges.find({v, v}) == hashmap_edges.end()) {
+        edges.push_back({v, v});
+        hashmap_edges.insert({v, v});
+      }
+
+      // undirected edges
+      if (hashmap_edges.find({v, u}) == hashmap_edges.end()) {
+        edges.push_back({v, u});
+        hashmap_edges.insert({v, u});
+      }
     }
+    std::cout << "from " << argv[1] << " read " << line_cnt << " lines" << std::endl;
 
     sort(nums.begin(), nums.end());
     nums.erase(unique(nums.begin(), nums.end()), nums.end());
+
+    // self-loop
+    // for (VertexId i = 0; i < nums.size(); ++i) {
+    //   edges.push_back({i, i});
+    // }
 
     cout << "vertex: " << nums.size() << " edges: " << edges.size() << endl;
     for (auto &e : edges) {
@@ -103,7 +159,7 @@ int main(int argc, char **argv) {
       e.dst = getNum(e.dst, nums);
       // std::cout << e.src << " " << e.dst << " " << e.edge_data << std::endl;
       out.write((char*)&e, sizeof(e));
-      if (++count % 1000000 == 0) {
+      if (++count % 10000000 == 0) {
         cout << "process " << count / 1000000 << "M edages." << endl;
       }
     }
